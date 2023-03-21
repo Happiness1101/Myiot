@@ -1,6 +1,7 @@
 /// Package import
 import 'package:at_gauges/at_gauges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:iots/class/mycolor.dart';
 import 'package:iots/class/sizes.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -37,6 +38,28 @@ var datetime = DateTime.now().year.toString() +
     DateTime.now().day.toString();
 
 int i = int.parse(datetime);
+var txtDate = TextEditingController();
+getdate(context) async {
+  DateTime? newDateTime = await DatePicker.showDatePicker(
+    context,
+    locale: LocaleType.th,
+    minTime: DateTime((DateTime.now().year + 543)),
+    maxTime: DateTime(DateTime.now().year + 543),
+  );
+  print(newDateTime);
+  if (newDateTime != null) {
+    String date = '';
+    date = newDateTime.day.toString() +
+        '/' +
+        newDateTime.month.toString() +
+        '/' +
+        (newDateTime.year).toString();
+    print("date_____$date");
+    // return date;
+    txtDate = TextEditingController()..text = date;
+  }
+  // setState(() {});
+}
 
 class _GrapState extends State<Grap> {
   late TrackballBehavior _trackballBehavior;
@@ -44,6 +67,7 @@ class _GrapState extends State<Grap> {
 
   @override
   void initState() {
+    txtDate.text = '';
     _tooltipBehavior = TooltipBehavior(enable: true);
 
     _trackballBehavior = TrackballBehavior(
@@ -71,7 +95,7 @@ class _GrapState extends State<Grap> {
                   children: [
                     tabletMode
                         ? hSizedBox(context, 10)
-                        : hSizedBox(context, displayHeight(context) * 0.15),
+                        : hSizedBox(context, displayHeight(context) * 0),
                     Container(
                       child: FutureBuilder<List<room1Model>>(
                         future: Network.fetchRoom1(context),
@@ -96,7 +120,6 @@ class _GrapState extends State<Grap> {
                           return Text('Error: ${snapshot.error}');
                         } else {
                           return MyClass.loading();
-                          //Text('Waiting for messages...');
                         }
                       },
                     ),
@@ -131,11 +154,31 @@ class _GrapState extends State<Grap> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Icon(
-            Icons.date_range_rounded,
-            color: Color.fromARGB(255, 248, 103, 0),
-            size: 30.0,
-          ),
+          // IconButton(
+          //   onPressed: () async {
+          //     DateTime? newDateTime = await DatePicker.showDatePicker(
+          //       context,
+          //       locale: LocaleType.th,
+          //       maxTime: DateTime(DateTime.now().year + 543),
+          //       minTime: DateTime((DateTime.now().year + 543) - 100),
+          //     );
+          //     if (newDateTime != null) {
+          //       String date = '';
+          //       date = newDateTime.day.toString() +
+          //           '/' +
+          //           newDateTime.month.toString() +
+          //           '/' +
+          //           (newDateTime.year).toString();
+          //       // txtDateFrom = TextEditingController()..text = date;
+          //       txtDate.text = date;
+          //     }
+          //   },
+          //   icon: Icon(
+          //     Icons.date_range_rounded,
+          //     color: Color.fromARGB(255, 248, 103, 0),
+          //     size: 30.0,
+          //   ),
+          // ),
           Expanded(
             child: SfCartesianChart(
                 trackballBehavior: _trackballBehavior,

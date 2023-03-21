@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
@@ -36,10 +37,8 @@ class MyClass {
   }
 
   static loading() {
-    // return colactionloading(2);
     return const SpinKitChasingDots(
       color: Color.fromARGB(255, 47, 0, 255),
-      // size: 50.0,
     );
   }
 
@@ -66,19 +65,8 @@ class MyClass {
           onToggle: (val) {
             isOn = val;
             lgs = 'en';
-            // setState(() {
-
-            // });
           },
         ),
-
-        // Switch(
-        //     value: isOn,
-        //     onChanged: (val) {
-        //       setState(() {
-        //         lgs = 'en';
-        //       });
-        //     }),
       ],
     );
   }
@@ -92,43 +80,6 @@ class MyClass {
     );
   }
 
-  static checkFormatAccountClose1(data, t) {
-    int n = 0;
-    if (data.toString().trim().length > 0) {
-      n = data.toString().trim().length - 4;
-      var x = '';
-      var d = '';
-      var d1 = '';
-      for (int i = 0; i < n; i++) {
-        if (t == 'tran' ||
-            t == 'tranBank' ||
-            t == 'tranAccount' ||
-            t == 'withDrowBankToDep') {
-          if (i == 0 || i == 2) {
-            x = x + 'X-';
-          } else {
-            x = x + 'X';
-          }
-          d = data.toString().trim().substring(n, n + 3) + '-';
-          d1 = data
-              .toString()
-              .trim()
-              .substring(data.toString().trim().length - 1);
-        }
-      }
-
-      if (t == 'tran' ||
-          t == 'tranBank' ||
-          t == 'tranAccount' ||
-          t == 'withDrowBankToDep') {
-        return x + d + d1;
-      } else {
-        return checkFormatAccountLoan(data);
-      }
-    } else {
-      return data;
-    }
-  }
 
   static showAlerttimeout(msg, context, t, c, f, l, p) {
     // Navigator.of(context).pop();
@@ -148,133 +99,14 @@ class MyClass {
           ),
           onPressed: () => {
             Navigator.of(context, rootNavigator: true).pop(),
-            // Navigator.of(context).pushAndRemoveUntil(
-            //     MaterialPageRoute(
-            //       builder: (context) => Tabs(p),
-            //     ),
-            //     (Route<dynamic> route) => false),
+          
           },
           width: displayWidth(context) * 0.3,
           color: MyColor.color('buttontxt'),
         ),
-        // DialogButton(
-        //   child: Text(
-        //     msg,
-        //     style: TextStyle(
-        //         color: Colors.white, fontSize: displayWidth(context) * 0.035),
-        //   ),
-        //   onPressed: () => {
-        //     Navigator.of(context, rootNavigator: true).pop(),
-        //     // Navigator.of(context).pop(),
-        //     Navigator.of(context).pushAndRemoveUntil(
-        //         MaterialPageRoute(
-        //           builder: (context) => Tabs(p),
-        //         ),
-        //         (Route<dynamic> route) => false),
-        //   },
-        //   width: displayWidth(context) * 0.3,
-        //   color: MyColorPro.color('buttontxt'),
-        // )
+      
       ],
     ).show();
-  }
-
-  static checkFormatAccountLoan(data) {
-    // var d1 = '';
-    // var d2 = '';
-    // var d3 = '';
-    // if (data.toString().trim().length > 0) {
-    //   if (data.toString().trim().length == 8) {
-    //     d1 = data.toString().trim().substring(0, 1);
-    //     d2 = data.toString().trim().substring(1, 6);
-    //     d3 = data.toString().trim().substring(6, 8);
-    //     return d1 + '-' + d2 + '/' + d3;
-    //   } else if (data.toString().trim().length == 9) {
-    //     d1 = data.toString().trim().substring(0, 2);
-    //     d2 = data.toString().trim().substring(2, 7);
-    //     d3 = data.toString().trim().substring(7, 9);
-    //     return d1 + '-' + d2 + '/' + d3;
-    //   } else {
-    //     return data;
-    //   }
-    // } else {
-    //   return data;
-    // }
-    return data;
-  }
-
-  static checkFormatAccountClose(data, t) {
-    print(t);
-    print(data);
-    int n = 0;
-    if (data.toString().trim().length > 0) {
-      n = data.toString().trim().length - 4;
-      var x = '';
-      var d = '';
-      var d1 = '';
-      for (int i = 0; i < n; i++) {
-        if (t == 'pay' || t == 'tran' || t == 'tranBank' || t == 'buyshare') {
-          if (i == 0 || i == 2) {
-            x = x + 'X-';
-          } else {
-            x = x + 'X';
-          }
-          d = data.toString().trim().substring(n, n + 3) + '-';
-          d1 = data
-              .toString()
-              .trim()
-              .substring(data.toString().trim().length - 1);
-        }
-      }
-      if (t == 'pay' || t == 'tran' || t == 'tranBank' || t == 'buyshare') {
-        return x + d + d1;
-      } else {
-        return data;
-      }
-    } else {}
-  }
-
-  static checkFormatAccountCloseKTB(data, t) {
-    print(t);
-    print(data);
-    int n = 0;
-    if (data.toString().trim().length > 0) {
-      n = data.toString().trim().length - 4;
-      var x = '';
-      var d = '';
-      var d1 = '';
-      for (int i = 0; i < n; i++) {
-        if (t == 'pay' ||
-                t == 'tran' ||
-                t == 'tranBank' ||
-                t == 'withDrowBankToDep' ||
-                t == 'withDrowLoanToBank'
-            // || t == 'buyshare'
-            ) {
-          if (i == 2 || i == 3) {
-            x = x + 'X-';
-          } else {
-            x = x + 'X';
-          }
-          d = data.toString().trim().substring(n, n + 3) + '-';
-          d1 = data
-              .toString()
-              .trim()
-              .substring(data.toString().trim().length - 1);
-        }
-      }
-      if (t == 'pay' ||
-              t == 'tran' ||
-              t == 'tranBank' ||
-              t == 'withDrowBankToDep' ||
-              t == 'withDrowLoanToBank'
-          // || t == 'buyshare'
-          ) {
-        return x + d + d1;
-      } else {
-        return data;
-      }
-    } else {}
   }
 
   static CardBorderRadius() {
@@ -290,16 +122,6 @@ class MyClass {
             : data.toString();
   }
 
-  static Currency() {
-    return ' ฿';
-  }
-
-  static hiddenDialog(n, context) {
-    Future.delayed(Duration(seconds: n), () {
-      Navigator.of(context, rootNavigator: true).pop('dialog');
-    });
-  }
-
   static List<T> CardMap<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
@@ -308,36 +130,7 @@ class MyClass {
     return result;
   }
 
-  static formatDatePro(s) {
-    print(s.toString());
-    String s1;
-    String t;
-    s = s.toString().replaceAll('T', ' ');
-    s = s.toString().replaceAll('.', ' ');
-    s1 = s.split(' ')[0].toString();
 
-    String d = s1.split('-')[2].toString();
-    String m = s1.split('-')[1].toString();
-    String y = (int.parse(s1.split('-')[0]) + 543).toString();
-    t = s.split(' ')[1].toString().split(':')[0] +
-        ':' +
-        s.split(' ')[1].toString().split(':')[1];
-    return d + '/' + m + '/' + y + ' ' + t;
-  }
-
-  static formatDatePro1(s) {
-    try {
-      // String s1 = s.split(' ')[0].toString();
-      String d = s.split('-')[2].toString();
-      String m = s.split('-')[1].toString();
-      String y = (int.parse(s.split('-')[0]) + 543).toString();
-
-      print(s);
-      return d + '/' + m + '/' + y;
-    } catch (de) {
-      return '';
-    }
-  }
 
   static getDatePro() {
     List dateList = [];

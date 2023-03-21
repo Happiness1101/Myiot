@@ -121,23 +121,23 @@ class _Page1State extends State<Page1> {
                   }).toList(),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: MyClass.CardMap<Widget>(cardList, (index, url) {
-                  return Container(
-                    width: 10.0,
-                    height: 10.0,
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 2.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentIndex == index
-                          ? Color.fromARGB(255, 255, 25, 0)
-                          : Colors.blueGrey,
-                    ),
-                  );
-                }),
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: MyClass.CardMap<Widget>(cardList, (index, url) {
+              //     return Container(
+              //       width: 10.0,
+              //       height: 10.0,
+              //       margin: const EdgeInsets.symmetric(
+              //           vertical: 10.0, horizontal: 2.0),
+              //       decoration: BoxDecoration(
+              //         shape: BoxShape.circle,
+              //         color: _currentIndex == index
+              //             ? Color.fromARGB(255, 255, 25, 0)
+              //             : Colors.blueGrey,
+              //       ),
+              //     );
+              //   }),
+              // ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -491,19 +491,19 @@ class _Page1State extends State<Page1> {
                     ),
                   ],
                 )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: Colors.pink,
-                        size: 24.0,
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 5),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Icon(
+                //         Icons.edit,
+                //         color: Colors.pink,
+                //         size: 24.0,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -709,131 +709,131 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        color: MyColor.color(colorList[2]),
-                        borderRadius: BorderRadius.circular(
-                          MyClass.CardBorderRadius() - 15,
-                        ),
-                      ),
-                      width: displayWidth(context) * 0.34,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
-                                iconListA[2],
-                                width: tabletMode ? 40 : 50,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Light",
-                                      textScaleFactor: MyClass.FontSizeApp(1.0),
-                                      style: CustomTextStyle.defaultCTxt(
-                                          context, -2, 'Bl'),
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          jsonResponse[0]['Light'],
-                                          textScaleFactor:
-                                              MyClass.FontSizeApp(1.0),
-                                          style: CustomTextStyle.defaultTxt(
-                                              context, -2),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(
-                          MyClass.CardBorderRadius() - 15,
-                        ),
-                      ),
-                      width: displayWidth(context) * 0.34,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
-                                iconListA[2],
-                                width: tabletMode ? 40 : 50,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "PM 2.5",
-                                      textScaleFactor: MyClass.FontSizeApp(1.0),
-                                      style: CustomTextStyle.defaultCTxt(
-                                          context, -2, 'Bl'),
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          jsonResponse[0]['PM2.5'],
-                                          textScaleFactor:
-                                              MyClass.FontSizeApp(1.0),
-                                          style: CustomTextStyle.defaultTxt(
-                                              context, -2),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: 5,
+                    // ),
+                    // Container(
+                    //   padding: EdgeInsets.only(right: 5),
+                    //   decoration: BoxDecoration(
+                    //     color: MyColor.color(colorList[2]),
+                    //     borderRadius: BorderRadius.circular(
+                    //       MyClass.CardBorderRadius() - 15,
+                    //     ),
+                    //   ),
+                    //   width: displayWidth(context) * 0.34,
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //         children: [
+                    //           Image.asset(
+                    //             iconListA[2],
+                    //             width: tabletMode ? 40 : 50,
+                    //           ),
+                    //           Expanded(
+                    //             child: Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.end,
+                    //               mainAxisAlignment: MainAxisAlignment.end,
+                    //               children: [
+                    //                 Text(
+                    //                   "Light",
+                    //                   textScaleFactor: MyClass.FontSizeApp(1.0),
+                    //                   style: CustomTextStyle.defaultCTxt(
+                    //                       context, -2, 'Bl'),
+                    //                 ),
+                    //                 Row(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.end,
+                    //                   mainAxisAlignment: MainAxisAlignment.end,
+                    //                   children: [
+                    //                     Text(
+                    //                       jsonResponse[0]['Light'],
+                    //                       textScaleFactor:
+                    //                           MyClass.FontSizeApp(1.0),
+                    //                       style: CustomTextStyle.defaultTxt(
+                    //                           context, -2),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 5,
+                    // ),
+                    // Container(
+                    //   padding: EdgeInsets.only(right: 5),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.grey,
+                    //     borderRadius: BorderRadius.circular(
+                    //       MyClass.CardBorderRadius() - 15,
+                    //     ),
+                    //   ),
+                    //   width: displayWidth(context) * 0.34,
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //         children: [
+                    //           Image.asset(
+                    //             iconListA[2],
+                    //             width: tabletMode ? 40 : 50,
+                    //           ),
+                    //           Expanded(
+                    //             child: Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.end,
+                    //               mainAxisAlignment: MainAxisAlignment.end,
+                    //               children: [
+                    //                 Text(
+                    //                   "PM 2.5",
+                    //                   textScaleFactor: MyClass.FontSizeApp(1.0),
+                    //                   style: CustomTextStyle.defaultCTxt(
+                    //                       context, -2, 'Bl'),
+                    //                 ),
+                    //                 Row(
+                    //                   crossAxisAlignment:
+                    //                       CrossAxisAlignment.end,
+                    //                   mainAxisAlignment: MainAxisAlignment.end,
+                    //                   children: [
+                    //                     Text(
+                    //                       jsonResponse[0]['PM2.5'],
+                    //                       textScaleFactor:
+                    //                           MyClass.FontSizeApp(1.0),
+                    //                       style: CustomTextStyle.defaultTxt(
+                    //                           context, -2),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 )),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Icon(
-                        Icons.edit,
-                        color: Colors.pink,
-                        size: 24.0,
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 5),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Icon(
+                //         Icons.edit,
+                //         color: Colors.pink,
+                //         size: 24.0,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
