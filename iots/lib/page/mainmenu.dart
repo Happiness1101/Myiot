@@ -44,30 +44,21 @@ class _MainmenuState extends State<Mainmenu> {
               color: Colors.green, fontWeight: FontWeight.bold, fontSize: 25),
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           actions: [
-            
-            FlutterSwitch(
-              inactiveToggleColor: MyColor.color('B'),
-              activeToggleColor: MyColor.color('B'),
-              inactiveText: 'EN',
-              activeText: 'TH',
-              value: isOn,
-              showOnOff: true,
-              onToggle: (val) {
-              
-                setState(() {
-                  isOn = val;
-                  lgs = 'en';
-                });
-              },
-            ),
+            // FlutterSwitch(
+            //   inactiveToggleColor: MyColor.color('B'),
+            //   activeToggleColor: MyColor.color('B'),
+            //   inactiveText: 'EN',
+            //   activeText: 'TH',
+            //   value: isOn,
+            //   showOnOff: true,
+            //   onToggle: (val) {
 
-            // Switch(
-            //     value: isOn,
-            //     onChanged: (val) {
-            //       setState(() {
-            //         lgs = 'en';
-            //       });
-            //     }),
+            //     setState(() {
+            //       isOn = val;
+            //       lgs = 'en';
+            //     });
+            //   },
+            // ),
           ],
         ),
         drawer: Drawer(
@@ -78,7 +69,7 @@ class _MainmenuState extends State<Mainmenu> {
                 // decoration: BoxDecoration(
                 //   color: Colors.blue,
                 // ),
-                child: Text('Drawer Header'),
+                child: Text(''),
               ),
               ListTile(
                 leading: Icon(

@@ -82,63 +82,65 @@ class _GrapState extends State<Grap> {
   @override
   Widget build(BuildContext context) {
     bool tabletMode = MediaQuery.of(context).size.width > 600;
-    return Stack(
-      children: [
-        Container(
-          height: double.infinity,
-          decoration: MyClass.backGround(),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: Container(
-                child: Column(
-                  children: [
-                    tabletMode
-                        ? hSizedBox(context, 10)
-                        : hSizedBox(context, displayHeight(context) * 0),
-                    Container(
-                      child: FutureBuilder<List<room1Model>>(
-                        future: Network.fetchRoom1(context),
+    return Scaffold(
+      //appBar: CustomUI.appbarUi(context),
+      body: Stack(
+        children: [
+          Container(
+            height: double.infinity,
+            decoration: MyClass.backGround(),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: Container(
+                  child: Column(
+                    children: [
+                      tabletMode
+                          ? hSizedBox(context, 10)
+                          : hSizedBox(context, displayHeight(context) * 0),
+                      Container(
+                        child: FutureBuilder<List<room1Model>>(
+                          future: Network.fetchRoom1(context),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return snapshot.data!.length > 0
+                                  ? _grap(data: snapshot.data)
+                                  : MyClass.loading();
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return MyClass.loading();
+                          },
+                        ),
+                      ),
+                      StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
+                        stream: Network().mqttStream('Room1/Jame'),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return snapshot.data!.length > 0
-                                ? _grap(data: snapshot.data)
-                                : MyClass.loading();
+                            return _card(data: snapshot.data);
                           } else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            return MyClass.loading();
                           }
-                          return MyClass.loading();
                         },
                       ),
-                    ),
-                    StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
-                      stream: Network().mqttStream('Room1/Jame'),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return _card(data: snapshot.data);
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return MyClass.loading();
-                        }
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-
-        CustomUI.appbarUi(context),
-        // MyClass.appbar()
-      ],
+          CustomUI.appbarUi(context),
+          // MyClass.appbar()
+        ],
+      ),
     );
   }
 
   _grap({data}) {
     return Container(
-      height: displayHeight(context) * 0.3,
+      height: displayHeight(context) * 0.35,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -154,44 +156,37 @@ class _GrapState extends State<Grap> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // IconButton(
-          //   onPressed: () async {
-          //     DateTime? newDateTime = await DatePicker.showDatePicker(
-          //       context,
-          //       locale: LocaleType.th,
-          //       maxTime: DateTime(DateTime.now().year + 543),
-          //       minTime: DateTime((DateTime.now().year + 543) - 100),
-          //     );
-          //     if (newDateTime != null) {
-          //       String date = '';
-          //       date = newDateTime.day.toString() +
-          //           '/' +
-          //           newDateTime.month.toString() +
-          //           '/' +
-          //           (newDateTime.year).toString();
-          //       // txtDateFrom = TextEditingController()..text = date;
-          //       txtDate.text = date;
-          //     }
-          //   },
-          //   icon: Icon(
-          //     Icons.date_range_rounded,
-          //     color: Color.fromARGB(255, 248, 103, 0),
-          //     size: 30.0,
-          //   ),
-          // ),
+          IconButton(
+            onPressed: () async {
+              DateTime? newDateTime = await DatePicker.showDatePicker(
+                context,
+                locale: LocaleType.th,
+                maxTime: DateTime(DateTime.now().year + 543),
+                minTime: DateTime((DateTime.now().year + 543) - 100),
+              );
+              if (newDateTime != null) {
+                String date = '';
+                date = newDateTime.day.toString() +
+                    '/' +
+                    newDateTime.month.toString() +
+                    '/' +
+                    (newDateTime.year).toString();
+                // txtDateFrom = TextEditingController()..text = date;
+                txtDate.text = date;
+              }
+            },
+            icon: Icon(
+              Icons.date_range_rounded,
+              color: Color.fromARGB(255, 248, 103, 0),
+              size: 30.0,
+            ),
+          ),
           Expanded(
             child: SfCartesianChart(
                 trackballBehavior: _trackballBehavior,
                 backgroundColor: MyColor.color('W'),
                 primaryXAxis: CategoryAxis(),
                 tooltipBehavior: _tooltipBehavior,
-                // series: <ChartSeries>[
-                //   StackedLine100Series<ExpenseData, String>(
-                //     dataSource: _chart,
-                //     xValueMapper: (ExpenseData data, _) => data.father,
-                //     yValueMapper: (ExpenseData data, _) => data.father1,
-                //   ),
-
                 series: <LineSeries<room1Model, String>>[
                   LineSeries<room1Model, String>(
                       markerSettings: MarkerSettings(isVisible: true),
@@ -214,22 +209,6 @@ class _GrapState extends State<Grap> {
                       xValueMapper: (room1Model data, _) => data.dateTime,
                       yValueMapper: (room1Model data, _) =>
                           double.parse(data.light.toString())),
-
-                  // StackedLine100Series<ExpenseData, String>(
-                  //   dataSource: _chart,
-                  //   xValueMapper: (ExpenseData data, _) => data.father,
-                  //   yValueMapper: (ExpenseData data, _) => data.father2,
-                  // ),
-                  // StackedLine100Series<ExpenseData, String>(
-                  //   dataSource: _chart,
-                  //   xValueMapper: (ExpenseData data, _) => data.father,
-                  //   yValueMapper: (ExpenseData data, _) => data.father3,
-                  // ),
-                  // StackedLine100Series<ExpenseData, String>(
-                  //   dataSource: _chart,
-                  //   xValueMapper: (ExpenseData data, _) => data.father,
-                  //   yValueMapper: (ExpenseData data, _) => data.father4,
-                  // ),
                 ]),
           ),
         ],
