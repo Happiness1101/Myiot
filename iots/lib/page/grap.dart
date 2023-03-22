@@ -156,30 +156,71 @@ class _GrapState extends State<Grap> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          IconButton(
-            onPressed: () async {
-              DateTime? newDateTime = await DatePicker.showDatePicker(
-                context,
-                locale: LocaleType.th,
-                maxTime: DateTime(DateTime.now().year + 543),
-                minTime: DateTime((DateTime.now().year + 543) - 100),
-              );
-              if (newDateTime != null) {
-                String date = '';
-                date = newDateTime.day.toString() +
-                    '/' +
-                    newDateTime.month.toString() +
-                    '/' +
-                    (newDateTime.year).toString();
-                // txtDateFrom = TextEditingController()..text = date;
-                txtDate.text = date;
-              }
-            },
-            icon: Icon(
-              Icons.date_range_rounded,
-              color: Color.fromARGB(255, 248, 103, 0),
-              size: 30.0,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+               Expanded(
+                child: Column(
+                  children: [
+                    Text('Light'),
+                    Divider(
+                      indent: 15,
+                      endIndent: 5,
+                      height: 20,
+                      thickness: 2,
+                      color: Color.fromARGB(255, 255, 234, 0),
+                    ),
+                  ],
+                ),
+                flex: 1,
+              ),
+              const Expanded(
+                child: Divider(
+                  indent: 15,
+                  endIndent: 5,
+                  height: 20,
+                  thickness: 2,
+                  color: Color.fromARGB(255, 209, 66, 53),
+                ),
+                flex: 1,
+              ),
+              const Expanded(
+                child: Divider(
+                  indent: 15,
+                  endIndent: 5,
+                  height: 20,
+                  thickness: 2,
+                  color: Color.fromARGB(255, 51, 176, 248),
+                ),
+                flex: 1,
+              ),
+              IconButton(
+                onPressed: () async {
+                  DateTime? newDateTime = await DatePicker.showDatePicker(
+                    context,
+                    locale: LocaleType.th,
+                    maxTime: DateTime(DateTime.now().year + 543),
+                    minTime: DateTime((DateTime.now().year + 543) - 100),
+                  );
+                  if (newDateTime != null) {
+                    String date = '';
+                    date = newDateTime.day.toString() +
+                        '/' +
+                        newDateTime.month.toString() +
+                        '/' +
+                        (newDateTime.year).toString();
+                    // txtDateFrom = TextEditingController()..text = date;
+                    txtDate.text = date;
+                  }
+                },
+                icon: Icon(
+                  Icons.date_range_rounded,
+                  color: Color.fromARGB(255, 248, 103, 0),
+                  size: 30.0,
+                ),
+              ),
+            ],
           ),
           Expanded(
             child: SfCartesianChart(
@@ -187,10 +228,16 @@ class _GrapState extends State<Grap> {
                 backgroundColor: MyColor.color('W'),
                 primaryXAxis: CategoryAxis(),
                 tooltipBehavior: _tooltipBehavior,
+                palette: <Color>[
+                  Color.fromARGB(255, 51, 176, 248),
+                  Color.fromARGB(255, 209, 66, 53),
+                  Color.fromARGB(255, 255, 234, 0)
+                ],
                 series: <LineSeries<room1Model, String>>[
                   LineSeries<room1Model, String>(
                       markerSettings: MarkerSettings(isVisible: true),
                       dataSource: data,
+                      name: 'Temp',
                       enableTooltip: true,
                       xValueMapper: (room1Model data, _) => data.dateTime,
                       yValueMapper: (room1Model data, _) =>
@@ -198,6 +245,7 @@ class _GrapState extends State<Grap> {
                   LineSeries<room1Model, String>(
                       markerSettings: MarkerSettings(isVisible: true),
                       dataSource: data,
+                      name: 'humidity',
                       enableTooltip: true,
                       xValueMapper: (room1Model data, _) => data.dateTime,
                       yValueMapper: (room1Model data, _) =>
@@ -205,6 +253,7 @@ class _GrapState extends State<Grap> {
                   LineSeries<room1Model, String>(
                       markerSettings: MarkerSettings(isVisible: true),
                       dataSource: data,
+                      name: 'light',
                       enableTooltip: true,
                       xValueMapper: (room1Model data, _) => data.dateTime,
                       yValueMapper: (room1Model data, _) =>
