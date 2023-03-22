@@ -16,7 +16,6 @@ String password = "mymqttmos";
 class Network {
   Stream<List<MqttReceivedMessage<MqttMessage>>> mqttStream(topic) async* {
     String? s;
-    // final client = MqttServerClient(MyClass.hostMqtt(), '1883');
     final client = MqttServerClient.withPort(MyClass.hostMqtt(),'willtopic', 1883);
     client.logging(on: true);
     client.keepAlivePeriod = 60;
@@ -45,58 +44,7 @@ class Network {
     } catch (e) {
       print(e);
     }
-
-    // if (client.connectionStatus!.state == MqttConnectionState.connected) {
-    //   print('client connected!!');
-    //   client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-    //     final recMess = c![0].payload as MqttPublishMessage;
-    //     final pt =
-    //         MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-    //     print('Received message: topic is ${c[0].topic}, payload is $pt');
-    //   });
-    // } else {
-    //   print(
-    //       'client connection failed - disconnecting, status is ${client.connectionStatus}');
-    //   client.disconnect();
-    //   exit(-1);
-    // }
-    
     yield* client.updates!;
-    // MqttServerClient.withPort(MyClass.hostdomain(), '', MyClass.port());
-    // final connMess = MqttConnectMessage()
-    //     .withClientIdentifier('dart_client')
-    //     .withWillTopic('willtopic')
-    //     .withWillMessage('My Will message')
-    //     .startClean()
-    //     .withWillQos(MqttQos.atLeastOnce);
-    // print('client connecting....');
-    // client.connectionMessage = connMess;
-
-    // if (client.connectionStatus?.state != MqttConnectionState.connected) {
-    //   try {
-    //     print('connected...');
-    //     await client.connect();
-    //     print("MQTTClientWrapper::GOT A NEW MESSAGE ");
-    //     client.subscribe(topic, MqttQos.atMostOnce);
-    //   } catch (e) {
-    //     print("catch...");
-    //     print(e.toString());
-    //   }
-    // } else {
-    //   print('MQTT Server already connected ');
-    // }
-
-    // client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-    //   print('object');
-
-    //   final recMess = c[0].payload as MqttPublishMessage;
-    //   s = String.fromCharCodes(recMess.payload.message);
-    //   String message =
-    //       MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
-    //   String decodeMessage = Utf8Decoder().convert(message.codeUnits);
-    //   print(jsonDecode(jsonEncode(decodeMessage)));
-    // });
-    // yield* client.updates!;
   }
 
   static Future<List<room1Model>> fetchRoom1(context) async {

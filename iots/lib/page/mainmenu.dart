@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:iots/bloc/iot_bloc.dart';
 import 'package:iots/class/mycolor.dart';
-import 'package:iots/page/room1/page1.dart';
+import 'package:iots/page/room1/room.dart';
 import 'package:iots/page/profile/page2.dart';
 
 class Mainmenu extends StatefulWidget {
@@ -16,7 +17,7 @@ class Mainmenu extends StatefulWidget {
 }
 
 String? lgs = 'th';
-bool isOn = false;
+// bool _switchValue = false;
 
 int _selectedPage = 0;
 
@@ -25,12 +26,10 @@ final _page = [
   Page2(),
 ];
 
-// final _route = <String, WidgetBuilder>{
-//   '/page1': (BuildContext context) => Page1(),
-//   '/page2': (BuildContext context) => Page2()
-// };
-
 class _MainmenuState extends State<Mainmenu> {
+  final loginBloc = BlocProvider(create: (context) => LoginBloc());
+  final lgsBloc = BlocProvider(create: (context) => LgsBloc());
+  bool _switchValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,21 +43,58 @@ class _MainmenuState extends State<Mainmenu> {
               color: Colors.green, fontWeight: FontWeight.bold, fontSize: 25),
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           actions: [
+            FlutterSwitch(
+              inactiveColor: Color.fromARGB(255, 18, 140, 240),
+              // activeTextColor: MyColor.color('B'),
+              toggleColor: MyColor.color('B'),
+              inactiveToggleColor: MyColor.color('B'),
+              activeToggleColor: MyColor.color('B'),
+              inactiveText: 'EN',
+              activeText: 'TH',
+              value: _switchValue,
+              showOnOff: true,
+              onToggle: (val) {
+                if (val == true) {
+                  print('val == true');
+                  context.read<LgsBloc>().add(LgsEventAdd());
+                } else {
+                  print('val == false');
+                  context.read<LgsBloc>().add(LgsEventRemove());
+                }
+
+                // BlocProvider.of<LgsBloc>(context).add(LgsEvent(bools: val));
+                print(_switchValue);
+                setState(() {
+                  _switchValue = val;
+                });
+
+                // final lgsBloc = BlocProvider(create: (context) => LgsBloc());
+                // print(lgsBloc);
+                // print(context.read<LgsBloc>().state.lgs.toString());
+              },
+            ),
             // FlutterSwitch(
+            //   inactiveColor: Color.fromARGB(255, 18, 140, 240),
+            //   // activeTextColor: MyColor.color('B'),
+            //   toggleColor: MyColor.color('B'),
             //   inactiveToggleColor: MyColor.color('B'),
             //   activeToggleColor: MyColor.color('B'),
             //   inactiveText: 'EN',
             //   activeText: 'TH',
-            //   value: isOn,
+            //   value: _switchValue,
             //   showOnOff: true,
             //   onToggle: (val) {
-
+            //     context.read<LgsBloc>().add(LgsEvent(bools: val));
+            //     // BlocProvider.of<LgsBloc>(context).add(LgsEvent(bools: val));
+            //     print(_switchValue);
             //     setState(() {
-            //       isOn = val;
-            //       lgs = 'en';
+            //       _switchValue = val;
             //     });
+
+            //     // final lgsBloc = BlocProvider(create: (context) => LgsBloc());
+            //     // print(context.read<LgsBloc>().state.lgs.toString());
             //   },
-            // ),
+            // )
           ],
         ),
         drawer: Drawer(
@@ -66,10 +102,7 @@ class _MainmenuState extends State<Mainmenu> {
             padding: EdgeInsets.zero,
             children: [
               const DrawerHeader(
-                // decoration: BoxDecoration(
-                //   color: Colors.blue,
-                // ),
-                child: Text(''),
+                child: Text('Drawer Header'),
               ),
               ListTile(
                 leading: Icon(
@@ -81,10 +114,6 @@ class _MainmenuState extends State<Mainmenu> {
                   setState(() {});
                   Navigator.pop(context);
                   print(_selectedPage);
-                  //  Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Page1()),
-                  // );
                 },
               ),
               ListTile(
@@ -94,10 +123,6 @@ class _MainmenuState extends State<Mainmenu> {
                 title: const Text('Page 2'),
                 onTap: () {
                   print(_selectedPage);
-                  //   Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Page2()),
-                  // );
                   _selectedPage = 1;
                   setState(() {});
                   Navigator.pop(context);

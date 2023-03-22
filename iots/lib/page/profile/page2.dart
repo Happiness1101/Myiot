@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iots/class/customUI.dart';
 import 'package:iots/class/language.dart';
 import 'package:iots/page/mainmenu.dart';
@@ -10,6 +11,7 @@ import 'package:iots/page/profile/project.dart';
 import 'package:iots/page/profile/reward.dart';
 import 'package:iots/service/network.dart';
 
+import '../../bloc/iot_bloc.dart';
 import '../../class/myclass.dart';
 import '../../class/sizes.dart';
 import '../../class/textStyle.dart';
@@ -31,8 +33,6 @@ class _Page2State extends State<Page2> {
   var _tabIndex = 0;
   @override
   void initState() {
-    // Network.fetchMRoom1;
-    // TODO: implement initState
     super.initState();
   }
 
@@ -50,145 +50,123 @@ class _Page2State extends State<Page2> {
   @override
   Widget build(BuildContext context) {
     bool tabletMode = MediaQuery.of(context).size.width > 600;
-    return Stack(
-      children: [
-        Container(
-          decoration: MyClass.backGround(),
-        ),
-        // Padding(
-        //   padding: EdgeInsets.only(top: displayHeight(context) * 0.25),
-        //   child: TabBarView(
-        //     physics: NeverScrollableScrollPhysics(),
-        //     children: [
-        //       Text(
-        //         'data',
-        //         textScaleFactor: MyClass.FontSizeApp(1.0),
-        //         style: CustomTextStyle.defaultCTxt(context, 0, 'Bl'),
-        //       )
-        //     ],
-        //   ),
-        // ),
-        Container(
-          padding: EdgeInsets.only(
-              top: displayHeight(context) * (tabletMode ? 0.0 : 0.0)),
-          child: DefaultTabController(
-            length: menu.length,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: displayHeight(context) * 0.25),
-                  child: TabBar(
-                    isScrollable: true,
-                    tabs: [
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              menu[0],
-                              textScaleFactor: MyClass.FontSizeApp(1.0),
-                              style: CustomTextStyle.defaultCTxt(
-                                  context, -1, 'Bl'),
+    final loginBloc = BlocProvider(create: (context) => LoginBloc());
+    final lgsBloc = BlocProvider(create: (context) => LgsBloc());
+    return MultiBlocProvider(
+      providers: [loginBloc],
+      child: Stack(
+        children: [
+          Container(
+            decoration: MyClass.backGround(),
+          ),
+          Container(
+            padding: EdgeInsets.only(
+                top: displayHeight(context) * (tabletMode ? 0.0 : 0.0)),
+            child: DefaultTabController(
+              length: menu.length,
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: displayHeight(context) * 0.25),
+                    child: TabBar(
+                      isScrollable: true,
+                      tabs: [
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                menu[0],
+                                textScaleFactor: MyClass.FontSizeApp(1.0),
+                                style: CustomTextStyle.defaultCTxt(
+                                    context, -1, 'Bl'),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              menu[1],
-                              textScaleFactor: MyClass.FontSizeApp(1.0),
-                              style: CustomTextStyle.defaultCTxt(
-                                  context, -1, 'Bl'),
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                menu[1],
+                                textScaleFactor: MyClass.FontSizeApp(1.0),
+                                style: CustomTextStyle.defaultCTxt(
+                                    context, -1, 'Bl'),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Tab(
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              menu[2],
-                              textScaleFactor: MyClass.FontSizeApp(1.0),
-                              style: CustomTextStyle.defaultCTxt(
-                                  context, -1, 'Bl'),
+                        Tab(
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                menu[2],
+                                textScaleFactor: MyClass.FontSizeApp(1.0),
+                                style: CustomTextStyle.defaultCTxt(
+                                    context, -1, 'Bl'),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                    onTap: (value) {
-                      _tabIndex = value;
-                    },
+                      ],
+                      onTap: (value) {
+                        _tabIndex = value;
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    children: <Widget>[
-                      Center(
-                        child: SingleChildScrollView(
+                  Expanded(
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: <Widget>[
+                        Center(
+                          child: SingleChildScrollView(
                             padding: EdgeInsets.only(
                                 bottom: displayHeight(context) * 0.5),
-                            child: _profile()),
-                      ),
-                      Center(
-                        child: SingleChildScrollView(
+                            child: BlocBuilder<LgsBloc, LgsState>(
+                                builder: (context, state) {
+                              return _profile(state.lgs);
+                            }),
+                          ),
+                        ),
+                        Center(
+                          child: SingleChildScrollView(
                             padding: EdgeInsets.only(
                                 bottom: displayHeight(context) * 0.5),
-                            child: Reward(lgs: lgs,)),
-                      ),
-                         Center(
-                        child: SingleChildScrollView(
-                           
-                            child: Project(lgs: lgs,)),
-                      ),
-                      // Center(
-                      //   child: SingleChildScrollView(
-                      //     padding: EdgeInsets.only(
-                      //         bottom: displayHeight(context) * 0.5),
-                      //     child: Container(
-                      //       color: Colors.green,
-                      //       child: Text(
-                      //         'data',
-                      //         textScaleFactor: MyClass.FontSizeApp(1.0),
-                      //         style: CustomTextStyle.defaultCTxt(
-                      //             context, -1, 'Bl'),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
+                            child: BlocBuilder<LgsBloc, LgsState>(
+                                builder: (context, state) {
+                              return Reward(
+                                lgs: state.lgs,
+                              );
+                            }),
+                          ),
+                        ),
+                        Center(
+                          child: SingleChildScrollView(
+                            child: BlocBuilder<LgsBloc, LgsState>(
+                                builder: (context, state) {
+                              return Project(
+                                lgs: state.lgs,
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-
-        // Expanded(
-        //   child: TabBarView(
-        //     physics: NeverScrollableScrollPhysics(),
-        //     children: <Widget>[
-        //       Center(
-        //         child: SingleChildScrollView(
-        //           padding:
-        //               EdgeInsets.only(bottom: displayHeight(context) * 0.5),
-        //           // child: _kTabs
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        CustomUI.appbarDetailUi('assets/imgs/boy.jpg', context),
-      ],
+          CustomUI.appbarDetailUi('assets/imgs/boy.jpg', context),
+        ],
+      ),
     );
   }
 
-  _profile() {
+  _profile(lgs) {
     return Container(
       width: displayWidth(context) * 1.0,
       height: displayHeight(context) * 1.0,
@@ -200,9 +178,15 @@ class _Page2State extends State<Page2> {
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: <Widget>[
-            Profile(),
-            Myjob(),
-            Skill(),
+            Profile(
+              lgs: lgs,
+            ),
+            Myjob(
+              lgs: lgs,
+            ),
+            Skill(
+              lgs: lgs,
+            ),
           ],
         ),
       ),
@@ -218,8 +202,13 @@ List<ExpandableController> controllerList = [
 int currentIndex = -1;
 
 class Profile extends StatelessWidget {
+  String? lgs;
+  Profile({required this.lgs});
+
   @override
   Widget build(BuildContext context) {
+    print('Profile');
+    print(lgs);
     return ExpandableNotifier(
         child: Padding(
       padding: const EdgeInsets.all(10),
@@ -256,7 +245,7 @@ class Profile extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Expanded(
+                            const Expanded(
                                 flex: 1,
                                 child: Icon(
                                   Icons.account_box,
@@ -266,7 +255,7 @@ class Profile extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "ประวัติส่วนตัว",
+                                Language.profile('history', lgs),
                                 textScaleFactor: MyClass.FontSizeApp(1.0),
                                 style: CustomTextStyle.defaultCTxt(
                                     context, -1, 'Bl'),
@@ -352,7 +341,7 @@ class Profile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.blue,
                           thickness: 2.0,
                         ),
@@ -383,7 +372,7 @@ class Profile extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.blue,
                           thickness: 2.0,
                         ),
@@ -446,6 +435,8 @@ class Profile extends StatelessWidget {
 }
 
 class Myjob extends StatelessWidget {
+  String? lgs;
+  Myjob({required this.lgs});
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
@@ -494,7 +485,7 @@ class Myjob extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                "ประวัติการทำงาน",
+                                Language.myJob('jobhistory', lgs),
                                 textScaleFactor: MyClass.FontSizeApp(1.0),
                                 style: CustomTextStyle.defaultCTxt(
                                     context, -1, 'Bl'),
@@ -575,33 +566,6 @@ class Myjob extends StatelessWidget {
                             ),
                           ],
                         )
-                        // Divider(
-                        //   color: Colors.blue,
-                        //   thickness: 2.0,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Adjustment",
-                        //       style: TextStyle(color: Colors.blue),
-                        //     ),
-                        //     Text(".00", style: TextStyle(color: Colors.blue)),
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   color: Colors.blue,
-                        //   thickness: 2.0,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text("Total due",
-                        //         style: TextStyle(color: Colors.blue)),
-                        //     Text("413.27",
-                        //         style: TextStyle(color: Colors.blue)),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
@@ -623,6 +587,8 @@ class Myjob extends StatelessWidget {
 }
 
 class Skill extends StatelessWidget {
+  String? lgs;
+  Skill({required this.lgs});
   @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
@@ -737,19 +703,6 @@ class Skill extends StatelessWidget {
                             ),
                           ],
                         ),
-                        // Divider(
-                        //   color: Colors.blue,
-                        //   thickness: 2.0,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text("Total due",
-                        //         style: TextStyle(color: Colors.blue)),
-                        //     Text("413.27",
-                        //         style: TextStyle(color: Colors.blue)),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),

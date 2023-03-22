@@ -4,9 +4,12 @@ import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:iots/bloc/iot_bloc.dart';
 import 'package:iots/class/item.dart';
+import 'package:iots/class/language.dart';
 import 'package:iots/class/myclass.dart';
 import 'package:iots/class/mycolor.dart';
 import 'package:iots/class/sizes.dart';
@@ -84,105 +87,93 @@ class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
     // main();
-    return Stack(
-      children: [
-        Container(
-          decoration: MyClass.backGround(),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: displayHeight(context) * 0.05),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    enableInfiniteScroll: false,
-                    disableCenter: true,
-                    height: displayHeight(context) * 0.20,
-                    aspectRatio: 12.0,
-                    viewportFraction: 0.8,
-                    enlargeCenterPage: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                  items: cardList.map((cards) {
-                    return Builder(builder: (BuildContext context) {
-                      return Card(
-                        shadowColor: Colors.black,
-                        semanticContainer: false,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(MyClass.CardBorderRadius()),
-                        ),
-                        child: cards,
-                      );
-                    });
-                  }).toList(),
-                ),
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: MyClass.CardMap<Widget>(cardList, (index, url) {
-              //     return Container(
-              //       width: 10.0,
-              //       height: 10.0,
-              //       margin: const EdgeInsets.symmetric(
-              //           vertical: 10.0, horizontal: 2.0),
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.circle,
-              //         color: _currentIndex == index
-              //             ? Color.fromARGB(255, 255, 25, 0)
-              //             : Colors.blueGrey,
-              //       ),
-              //     );
-              //   }),
-              // ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
-                        stream: Network().mqttStream('Room1/Jame'),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Column(
-                              children: [
-                                _detail(snapshot.data),
-                                 _detail1(snapshot.data),
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return Text('Waiting for messages...');
-                          }
+    final loginBloc = BlocProvider(create: (context) => LoginBloc());
+    final lgsBloc = BlocProvider(create: (context) => LgsBloc());
+    return MultiBlocProvider(
+      providers: [loginBloc],
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: MyClass.backGround(),
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: displayHeight(context) * 0.05),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        disableCenter: true,
+                        height: displayHeight(context) * 0.20,
+                        aspectRatio: 12.0,
+                        viewportFraction: 0.8,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
                         },
                       ),
-                      // StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
-                      //   stream: Network().mqttStream('Room1/Jame'),
-                      //   builder: (context, snapshot) {
-                      //     if (snapshot.hasData) {
-                      //       return _detail1(snapshot.data);
-                      //     } else if (snapshot.hasError) {
-                      //       return Text('Error: ${snapshot.error}');
-                      //     } else {
-                      //       return Text('Waiting for messages...');
-                      //     }
-                      //   },
-                      // ),
-                    ],
+                      items: cardList.map((cards) {
+                        return Builder(builder: (BuildContext context) {
+                          return Card(
+                            shadowColor: Colors.black,
+                            semanticContainer: false,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  MyClass.CardBorderRadius()),
+                            ),
+                            child: cards,
+                          );
+                        });
+                      }).toList(),
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          StreamBuilder<List<MqttReceivedMessage<MqttMessage>>>(
+                            stream: Network().mqttStream('Room1/Jame'),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    BlocBuilder<LgsBloc, LgsState>(
+                                      builder: (context, state) {
+                                        print("DebugX: ${state.lgs}");
+                                        return Column(
+                                          children: [
+                                            _detail(snapshot.data, state.lgs),
+                                            _detail1(snapshot.data, state.lgs),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return Text('Waiting for messages...');
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _detail(room1) {
+  Widget _detail(room1, lgs) {
     final List jsonResponse = MyClass.jsonValue(room1);
     print(jsonResponse);
     bool tabletMode = MediaQuery.of(context).size.width > 600;
@@ -212,7 +203,7 @@ class _Page1State extends State<Page1> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'room1',
+                          Language.home('room1', lgs),
                           textScaleFactor: MyClass.FontSizeApp(1.0),
                           style:
                               CustomTextStyle.defaultTxtCc(context, -5, 'Bl'),
@@ -240,17 +231,12 @@ class _Page1State extends State<Page1> {
                                   )),
                         );
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.home,
                         color: Color.fromARGB(255, 248, 103, 0),
                         size: 30.0,
                       ),
                     )
-                    // Icon(
-                    //   Icons.home,
-                    //   color: Color.fromARGB(255, 248, 103, 0),
-                    //   size: 30.0,
-                    // ),
                   ],
                 ),
                 Expanded(
@@ -259,7 +245,7 @@ class _Page1State extends State<Page1> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     Container(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(right: 5),
                       decoration: BoxDecoration(
                         color: MyColor.color(colorList[0]),
                         borderRadius: BorderRadius.circular(
@@ -283,7 +269,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Humidity",
+                                      Language.home('temp', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -294,7 +280,7 @@ class _Page1State extends State<Page1> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text(
-                                          jsonResponse[0]['Humidity_Room1'],
+                                          jsonResponse[0]['Temp_Room1'],
                                           textScaleFactor:
                                               MyClass.FontSizeApp(1.0),
                                           style: CustomTextStyle.defaultTxt(
@@ -317,11 +303,11 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Container(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(right: 5),
                       decoration: BoxDecoration(
                         color: MyColor.color(colorList[1]),
                         borderRadius: BorderRadius.circular(
@@ -345,7 +331,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Temp",
+                                      Language.home('humidity', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -356,7 +342,7 @@ class _Page1State extends State<Page1> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text(
-                                          jsonResponse[0]['Temp_Room1'],
+                                          jsonResponse[0]['Humidity_Room1'],
                                           textScaleFactor:
                                               MyClass.FontSizeApp(1.0),
                                           style: CustomTextStyle.defaultTxt(
@@ -379,7 +365,7 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Container(
@@ -407,7 +393,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Light",
+                                      Language.home('light', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -434,7 +420,7 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Container(
@@ -462,7 +448,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "PM 2.5",
+                                      Language.home('PM', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -491,19 +477,6 @@ class _Page1State extends State<Page1> {
                     ),
                   ],
                 )),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 5),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       Icon(
-                //         Icons.edit,
-                //         color: Colors.pink,
-                //         size: 24.0,
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -512,7 +485,7 @@ class _Page1State extends State<Page1> {
     );
   }
 
-  _detail1(room1) {
+  _detail1(room1,lgs) {
     final List jsonResponse = MyClass.jsonValue(room1);
     print(jsonResponse);
     bool tabletMode = MediaQuery.of(context).size.width > 600;
@@ -542,7 +515,7 @@ class _Page1State extends State<Page1> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'room1',
+                          Language.home('room2', lgs),
                           textScaleFactor: MyClass.FontSizeApp(1.0),
                           style:
                               CustomTextStyle.defaultTxtCc(context, -5, 'Bl'),
@@ -570,17 +543,12 @@ class _Page1State extends State<Page1> {
                                   )),
                         );
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.home,
                         color: Color.fromARGB(255, 248, 103, 0),
                         size: 30.0,
                       ),
                     )
-                    // Icon(
-                    //   Icons.home,
-                    //   color: Color.fromARGB(255, 248, 103, 0),
-                    //   size: 30.0,
-                    // ),
                   ],
                 ),
                 Expanded(
@@ -589,7 +557,7 @@ class _Page1State extends State<Page1> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     Container(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(right: 5),
                       decoration: BoxDecoration(
                         color: MyColor.color(colorList[0]),
                         borderRadius: BorderRadius.circular(
@@ -613,7 +581,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Humidity",
+                                    Language.home('temp', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -647,11 +615,11 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Container(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.only(right: 5),
                       decoration: BoxDecoration(
                         color: MyColor.color(colorList[1]),
                         borderRadius: BorderRadius.circular(
@@ -675,7 +643,8 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "Temp",
+                                       Language.home('humidity', lgs),
+                                  
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -709,131 +678,8 @@ class _Page1State extends State<Page1> {
                         ],
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 5,
-                    // ),
-                    // Container(
-                    //   padding: EdgeInsets.only(right: 5),
-                    //   decoration: BoxDecoration(
-                    //     color: MyColor.color(colorList[2]),
-                    //     borderRadius: BorderRadius.circular(
-                    //       MyClass.CardBorderRadius() - 15,
-                    //     ),
-                    //   ),
-                    //   width: displayWidth(context) * 0.34,
-                    //   child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Image.asset(
-                    //             iconListA[2],
-                    //             width: tabletMode ? 40 : 50,
-                    //           ),
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.end,
-                    //               mainAxisAlignment: MainAxisAlignment.end,
-                    //               children: [
-                    //                 Text(
-                    //                   "Light",
-                    //                   textScaleFactor: MyClass.FontSizeApp(1.0),
-                    //                   style: CustomTextStyle.defaultCTxt(
-                    //                       context, -2, 'Bl'),
-                    //                 ),
-                    //                 Row(
-                    //                   crossAxisAlignment:
-                    //                       CrossAxisAlignment.end,
-                    //                   mainAxisAlignment: MainAxisAlignment.end,
-                    //                   children: [
-                    //                     Text(
-                    //                       jsonResponse[0]['Light'],
-                    //                       textScaleFactor:
-                    //                           MyClass.FontSizeApp(1.0),
-                    //                       style: CustomTextStyle.defaultTxt(
-                    //                           context, -2),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   width: 5,
-                    // ),
-                    // Container(
-                    //   padding: EdgeInsets.only(right: 5),
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.grey,
-                    //     borderRadius: BorderRadius.circular(
-                    //       MyClass.CardBorderRadius() - 15,
-                    //     ),
-                    //   ),
-                    //   width: displayWidth(context) * 0.34,
-                    //   child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Image.asset(
-                    //             iconListA[2],
-                    //             width: tabletMode ? 40 : 50,
-                    //           ),
-                    //           Expanded(
-                    //             child: Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.end,
-                    //               mainAxisAlignment: MainAxisAlignment.end,
-                    //               children: [
-                    //                 Text(
-                    //                   "PM 2.5",
-                    //                   textScaleFactor: MyClass.FontSizeApp(1.0),
-                    //                   style: CustomTextStyle.defaultCTxt(
-                    //                       context, -2, 'Bl'),
-                    //                 ),
-                    //                 Row(
-                    //                   crossAxisAlignment:
-                    //                       CrossAxisAlignment.end,
-                    //                   mainAxisAlignment: MainAxisAlignment.end,
-                    //                   children: [
-                    //                     Text(
-                    //                       jsonResponse[0]['PM2.5'],
-                    //                       textScaleFactor:
-                    //                           MyClass.FontSizeApp(1.0),
-                    //                       style: CustomTextStyle.defaultTxt(
-                    //                           context, -2),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 )),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 5),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       Icon(
-                //         Icons.edit,
-                //         color: Colors.pink,
-                //         size: 24.0,
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

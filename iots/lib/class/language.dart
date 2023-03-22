@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 
 class Language {
+  static home(m,l){
+     if (m == 'room1') {
+      return l == 'th' ? 'ห้อง1' : 'Room1';
+    }
+      if (m == 'room2') {
+      return l == 'th' ? 'ห้อง2' : 'Room2';
+    }
+     if (m == 'temp') {
+      return l == 'th' ? 'อุณหภูมิ' : 'Temp';
+    }
+     if (m == 'humidity') {
+      return l == 'th' ? 'ความชื้น' : 'Humidity';
+    }
+      if (m == 'light') {
+      return l == 'th' ? 'แสง' : 'Light';
+    }
+       if (m == 'PM') {
+      return l == 'th' ? 'ฝุ่น PM2.5' : 'PM 2.5';
+    }
+  }
+
   static profile(m, l) {
     //
+    if (m=='history') {
+        return l == 'th' ? 'ประวัติส่วนตัว' : 'History';
+    }
     if (m == 'name') {
       return l == 'th' ? 'ชื่อ' : 'Name';
     }
@@ -42,6 +66,9 @@ class Language {
 
   static myJob(m, l) {
     //job position
+        if (m == 'jobhistory') {
+      return l == 'th' ? 'ประวัติการทำงาน' : 'Job History';
+    }
     if (m == 'company') {
       return l == 'th' ? 'บริษัท' : 'Company';
     }
