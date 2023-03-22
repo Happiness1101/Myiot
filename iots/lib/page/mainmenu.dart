@@ -108,7 +108,7 @@ class _MainmenuState extends State<Mainmenu> {
                 leading: Icon(
                   Icons.home,
                 ),
-                title: const Text('Page 1'),
+                title: const Text('Room'),
                 onTap: () {
                   _selectedPage = 0;
                   setState(() {});
@@ -120,7 +120,7 @@ class _MainmenuState extends State<Mainmenu> {
                 leading: Icon(
                   Icons.photo_camera_front_rounded,
                 ),
-                title: const Text('Page 2'),
+                title: const Text('Profile'),
                 onTap: () {
                   print(_selectedPage);
                   _selectedPage = 1;
