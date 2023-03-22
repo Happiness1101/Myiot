@@ -33,75 +33,72 @@ class _RewardState extends State<Reward> {
                 crossAxisSpacing: 0,
               ),
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Card(
-                    elevation: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            Language.reward('contest', widget.lgs),
-                            style:
-                                CustomTextStyle.defaultCTxt(context, -1, 'Bl'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  barrierDismissible: true,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                        padding: EdgeInsets.only(
-                                            top: displayHeight(context) * 0.3,
-                                            bottom:
-                                                displayHeight(context) * 0.3),
-                                        child: Image.asset(
-                                          'assets/imgs/central.jpeg',
-                                        ));
-                                  },
-                                );
-                              },
-                              child: Image.asset(
-                                'assets/imgs/central.jpeg',
-                              ),
+                Card(
+                  elevation: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          Language.reward('contest', widget.lgs),
+                          style:
+                              CustomTextStyle.defaultCTxt(context, -1, 'Bl'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                barrierDismissible: true,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                      padding: EdgeInsets.only(
+                                          top: displayHeight(context) * 0.3,
+                                          bottom:
+                                              displayHeight(context) * 0.3),
+                                      child: Image.asset(
+                                        'assets/imgs/central.jpeg',
+                                      ));
+                                },
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/imgs/central.jpeg',
                             ),
                           ),
-                       Expanded(
-                            child: Text(
-                              Language.reward('contestDetail', widget.lgs),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: CustomTextStyle.defaultTxt(context, -3),
-                            ),
+                        ),
+                     Expanded(
+                          child: Text(
+                            Language.reward('contestDetail', widget.lgs),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: CustomTextStyle.defaultTxt(context, -3),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              // crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    Language.reward('readMore', widget.lgs),
-                                    maxLines: 2,
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        CustomTextStyle.defaultTxtUl(context, -3),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            // crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  Language.reward('readMore', widget.lgs),
+                                  maxLines: 2,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      CustomTextStyle.defaultTxtUl(context, -3),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -114,7 +111,7 @@ class _RewardState extends State<Reward> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            Language.reward('contest', widget.lgs),
+                            Language.reward('bootcam', widget.lgs),
                             style:
                                 CustomTextStyle.defaultCTxt(context, -1, 'Bl'),
                           ),

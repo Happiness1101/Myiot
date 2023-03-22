@@ -103,10 +103,13 @@ class Language {
    static reward(m, l) {
     //job position
     if (m == 'contest') {
-      return l == 'th' ? 'ประกวดผลงานวิจัยแห่งชาติ' : 'Contest';
+      return l == 'th' ? 'ประกวดผลงานวิจัยแห่งชาติ' : 'National Research Contest';
     }
       if (m == 'contestDetail') {
-      return l == 'th' ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล' : 'Contest';
+      return l == 'th' ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล' : 'The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage.';
+    }
+    if (m == 'bootcam') {
+      return l == 'th' ? 'อบรมณืสมาร์ทฟาร์ม' : 'Boot camp smart farm';
     }
     if (m == 'mainSkill') {
       return l == 'th' ? 'ทักษะหลัก' : 'Skill';
