@@ -32,7 +32,7 @@ class IotInitialLanguage extends IotStateLanguage {}
 class LgsState extends Equatable {
   final String lgs;
 
- const LgsState({this.lgs = 'th'});
+ const LgsState({this.lgs = 'en'});
 
   LgsState copyWith({String? lgs}) {
     print('copyWith');

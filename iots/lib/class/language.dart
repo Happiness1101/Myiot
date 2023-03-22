@@ -1,31 +1,43 @@
 import 'package:flutter/material.dart';
 
 class Language {
-  static home(m,l){
-     if (m == 'room1') {
+  static home(m, l) {
+     if (m == 'roomClimate') {
+      return l == 'th' ? 'สภาพอากาศภายในห้อง' : 'Room Climate';
+    }
+    if (m == 'room1') {
       return l == 'th' ? 'ห้อง1' : 'Room1';
     }
-      if (m == 'room2') {
+    if (m == 'room2') {
       return l == 'th' ? 'ห้อง2' : 'Room2';
     }
-     if (m == 'temp') {
+    if (m == 'temp') {
       return l == 'th' ? 'อุณหภูมิ' : 'Temp';
     }
-     if (m == 'humidity') {
+    if (m == 'humidity') {
       return l == 'th' ? 'ความชื้น' : 'Humidity';
     }
-      if (m == 'light') {
+    if (m == 'light') {
       return l == 'th' ? 'แสง' : 'Light';
     }
-       if (m == 'PM') {
+    if (m == 'PM') {
       return l == 'th' ? 'PM 2.5' : 'PM 2.5';
+    }
+    if (m == 'tempMax') {
+      return l == 'th' ? 'อุณหภูมิ สูงสุด' : 'Temp(max)';
+    }
+    if (m == 'humidityMax') {
+      return l == 'th' ? 'ความชื้น สูงสุด' : 'Humidity(max)';
+    }
+    if (m == 'lightMax') {
+      return l == 'th' ? 'แสง สูงสุด' : 'Light(max)';
     }
   }
 
   static profile(m, l) {
     //
-    if (m=='history') {
-        return l == 'th' ? 'ประวัติส่วนตัว' : 'History';
+    if (m == 'history') {
+      return l == 'th' ? 'ประวัติส่วนตัว' : 'History';
     }
     if (m == 'name') {
       return l == 'th' ? 'ชื่อ' : 'Name';
@@ -66,7 +78,7 @@ class Language {
 
   static myJob(m, l) {
     //job position
-        if (m == 'jobhistory') {
+    if (m == 'jobhistory') {
       return l == 'th' ? 'ประวัติการทำงาน' : 'Job History';
     }
     if (m == 'company') {
@@ -100,13 +112,18 @@ class Language {
       return l == 'th' ? 'ทักษะรอง' : 'Secondary Skill';
     }
   }
-   static reward(m, l) {
+
+  static reward(m, l) {
     //job position
     if (m == 'contest') {
-      return l == 'th' ? 'ประกวดผลงานวิจัยแห่งชาติ' : 'National Research Contest';
+      return l == 'th'
+          ? 'ประกวดผลงานวิจัยแห่งชาติ'
+          : 'National Research Contest';
     }
-      if (m == 'contestDetail') {
-      return l == 'th' ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล' : 'The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage.';
+    if (m == 'contestDetail') {
+      return l == 'th'
+          ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล'
+          : 'The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage.';
     }
     if (m == 'bootcam') {
       return l == 'th' ? 'อบรมณ์สมาร์ทฟาร์ม' : 'Boot camp smart farm';
@@ -118,17 +135,19 @@ class Language {
       return l == 'th' ? 'ทักษะรอง' : 'Secondary Skill';
     }
     if (m == 'readMore') {
-      return l == 'th' ? 'เพิ่มเติม':'Read more';
+      return l == 'th' ? 'เพิ่มเติม' : 'Read more';
     }
   }
 
-     static project(m, l) {
+  static project(m, l) {
     //job position
     if (m == 'project') {
       return l == 'th' ? 'สมาร์ทเฟรม' : 'Smart Fram';
     }
-      if (m == 'projectDetail') {
-      return l == 'th' ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล' : 'Contest';
+    if (m == 'projectDetail') {
+      return l == 'th'
+          ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล'
+          : 'The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage. The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage.';
     }
     if (m == 'mainSkill') {
       return l == 'th' ? 'ทักษะหลัก' : 'Skill';
@@ -137,7 +156,7 @@ class Language {
       return l == 'th' ? 'ทักษะรอง' : 'Secondary Skill';
     }
     if (m == 'readMore') {
-      return l == 'th' ? 'เพิ่มเติม':'Read more';
+      return l == 'th' ? 'เพิ่มเติม' : 'Read more';
     }
   }
 }

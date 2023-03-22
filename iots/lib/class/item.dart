@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iots/class/language.dart';
 import 'package:iots/class/myclass.dart';
 import 'package:iots/class/mycolor.dart';
 import 'package:iots/class/sizes.dart';
@@ -6,31 +7,20 @@ import 'package:iots/class/textStyle.dart';
 
 class AccountItem extends StatelessWidget {
   final String? title;
-  // final String? accountId;
-  // final double? remainingAmount;
-  // final double? withdrawalAmount;
-  // final double? fontsizeapps;
-  // final String? lgs;
-  // final double? outstanding_balance;
-  // final String? withdrawFlag;
-  // final String? type;
-  // final String? mobileFlag;
+  final String? temp;
+  final String? humidity;
+  final String? light;
 
   const AccountItem({
     this.title,
-    // this.accountId,
-    // this.remainingAmount,
-    // this.withdrawalAmount,
-    // this.fontsizeapps,
-    // this.lgs,
-    // this.outstanding_balance,
-    // this.withdrawFlag,
-    // this.type,
-    // this.mobileFlag,
+    this.temp,
+    this.humidity,
+    this.light,
   });
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(MyClass.CardBorderRadius()),
@@ -59,7 +49,7 @@ class AccountItem extends StatelessWidget {
                 //   color: MyColor.color('w'),
                 // ),
                 Text(
-                  title! + '  C',
+                  title!,
                   textScaleFactor: MyClass.FontSizeApp(1.0),
                   style: CustomTextStyle.defaultCTxt(context, 0, 'Bl'),
                 ),
@@ -73,7 +63,7 @@ class AccountItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "humidity",
+                    Language.home('tempMax', ''),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -81,7 +71,7 @@ class AccountItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    MyClass.checkNull('-'),
+                    MyClass.checkNull(humidity),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -93,7 +83,7 @@ class AccountItem extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Temp(min)",
+                  Language.home('humidityMax', ''),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -101,7 +91,7 @@ class AccountItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    MyClass.checkNull('-'),
+                    MyClass.checkNull(temp),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -113,7 +103,7 @@ class AccountItem extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Temp(max)",
+                   Language.home('lightMax', ''),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -121,7 +111,7 @@ class AccountItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    MyClass.checkNull('-'),
+                    MyClass.checkNull(light),
                     textScaleFactor: MyClass.FontSizeApp(1.0),
                     style: CustomTextStyle.defaultTxt(
                       context,
@@ -130,26 +120,26 @@ class AccountItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  Text(
-                    "Wind",
-                    textScaleFactor: MyClass.FontSizeApp(1.0),
-                    style: CustomTextStyle.defaultTxt(
-                      context,
-                      -5,
-                    ),
-                  ),
-                  Text(
-                    MyClass.checkNull('-'),
-                    textScaleFactor: MyClass.FontSizeApp(1.0),
-                    style: CustomTextStyle.defaultTxt(
-                      context,
-                      -5,
-                    ),
-                  ),
-                ],
-              ),
+              // Column(
+              //   children: [
+              //     Text(
+              //       "Wind",
+              //       textScaleFactor: MyClass.FontSizeApp(1.0),
+              //       style: CustomTextStyle.defaultTxt(
+              //         context,
+              //         -5,
+              //       ),
+              //     ),
+              //     Text(
+              //       MyClass.checkNull(light),
+              //       textScaleFactor: MyClass.FontSizeApp(1.0),
+              //       style: CustomTextStyle.defaultTxt(
+              //         context,
+              //         -5,
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           )
         ],

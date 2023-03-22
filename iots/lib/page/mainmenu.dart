@@ -7,7 +7,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:iots/bloc/iot_bloc.dart';
 import 'package:iots/class/mycolor.dart';
 import 'package:iots/page/room1/room.dart';
-import 'package:iots/page/profile/page2.dart';
+import 'package:iots/page/profile/profile.dart';
 
 class Mainmenu extends StatefulWidget {
   const Mainmenu({super.key});

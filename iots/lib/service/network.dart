@@ -72,20 +72,42 @@ class Network {
       // Navigator.pushAndRemoveUntil(
       //     context,
       //     MaterialPageRoute(
-      //         builder: (BuildContext context) => Pins(gettitle: 'pinCode')),
+      //         builder: (BuildContext context) => Pin()),
       //     (Route<dynamic> route) => false);
       throw Exception('Failed');
     }
   }
 
-  // void onDisconnected() {
-  //   print('OnDisconnected client callback - Client disconnection');
-  //   if (client.connectionStatus!.disconnectionOrigin ==
-  //       MqttDisconnectionOrigin.solicited) {
-  //     print('OnDisconnected callback is solicited, this is correct');
-  //   }
-  //   exit(-1);
-  // }
+    static Future<List> fetchRoom(context) async {
+    final url = Uri.parse('${MyClass.hostapp()}/dbex/connect_flutter.php');
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      // "Authorization": "Bearer " + token
+    };
+    // print('adfasdf');
+    // String jsons = json.encode(data);
+    //  print(jsons);
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+    print(response.statusCode);
+    print('fetchMsg');
+    print(response.body);
+    if (response.statusCode == 200) {
+      final List jsonResponse = json.decode(response.body);
+      // List<room1Model> result =
+      //     jsonResponse.map((i) => room1Model.fromJson(i)).toList();
+      return jsonResponse;
+    } else {
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (BuildContext context) => Pin()),
+      //     (Route<dynamic> route) => false);
+      throw Exception('Failed');
+    }
+  }
 
   /// The successful connect callback
   void onConnected() {

@@ -161,6 +161,7 @@ class _GrapState extends State<Grap> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
                Expanded(
+                // ignore: sort_child_properties_last
                 child: Column(
                   children: [
                     Text('Light'),

@@ -38,11 +38,12 @@ class _Page1State extends State<Page1> {
   Stream? stream;
 
   _account() {
-    setState(() {
-      cardList.add(AccountItem(
-        title: 'Test',
-      ));
-    });
+    cardList.add(AccountItem(
+      title: 'Head',
+      temp: '45',
+      humidity: '55',
+      light: '70',
+    ));
   }
 
   final iconListA = [
@@ -100,36 +101,58 @@ class _Page1State extends State<Page1> {
               child: Column(
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.only(top: displayHeight(context) * 0.05),
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        enableInfiniteScroll: false,
-                        disableCenter: true,
-                        height: displayHeight(context) * 0.20,
-                        aspectRatio: 12.0,
-                        viewportFraction: 0.8,
-                        enlargeCenterPage: true,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
+                    padding: EdgeInsets.only(
+                        top: displayHeight(context) * 0.05,
+                        left: 10,
+                        right: 10),
+                    child: Container(
+                      height: displayHeight(context) * 0.20,
+                      child: FutureBuilder<List>(
+                        future: Network.fetchRoom(context),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return snapshot.data!.length > 0
+                                ? BlocBuilder<LgsBloc, LgsState>(
+                                    builder: (context, state) {
+                                    return _card(snapshot.data, state.lgs);
+                                  })
+                                : MyClass.loading();
+                          } else if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
+                          }
+                          return MyClass.loading();
                         },
                       ),
-                      items: cardList.map((cards) {
-                        return Builder(builder: (BuildContext context) {
-                          return Card(
-                            shadowColor: Colors.black,
-                            semanticContainer: false,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  MyClass.CardBorderRadius()),
-                            ),
-                            child: cards,
-                          );
-                        });
-                      }).toList(),
                     ),
+
+                    // CarouselSlider(
+                    //   options: CarouselOptions(
+                    //     enableInfiniteScroll: false,
+                    //     disableCenter: true,
+                    //     height: displayHeight(context) * 0.20,
+                    //     aspectRatio: 12.0,
+                    //     viewportFraction: 0.8,
+                    //     enlargeCenterPage: true,
+                    //     onPageChanged: (index, reason) {
+                    //       setState(() {
+                    //         _currentIndex = index;
+                    //       });
+                    //     },
+                    //   ),
+                    //   items: cardList.map((cards) {
+                    //     return Builder(builder: (BuildContext context) {
+                    //       return Card(
+                    //         shadowColor: Colors.black,
+                    //         semanticContainer: false,
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(
+                    //               MyClass.CardBorderRadius()),
+                    //         ),
+                    //         child: cards,
+                    //       );
+                    //     });
+                    //   }).toList(),
+                    // ),
                   ),
                   Expanded(
                     child: SingleChildScrollView(
@@ -425,7 +448,7 @@ class _Page1State extends State<Page1> {
                       width: 5,
                     ),
                     Container(
-                      padding: EdgeInsets.only(right: 5,left: 5),
+                      padding: EdgeInsets.only(right: 5, left: 5),
                       decoration: BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(
@@ -486,7 +509,7 @@ class _Page1State extends State<Page1> {
     );
   }
 
-  _detail1(room1,lgs) {
+  _detail1(room1, lgs) {
     final List jsonResponse = MyClass.jsonValue(room1);
     print(jsonResponse);
     bool tabletMode = MediaQuery.of(context).size.width > 600;
@@ -582,7 +605,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                    Language.home('temp', lgs),
+                                      Language.home('temp', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -644,8 +667,7 @@ class _Page1State extends State<Page1> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                       Language.home('humidity', lgs),
-                                  
+                                      Language.home('humidity', lgs),
                                       textScaleFactor: MyClass.FontSizeApp(1.0),
                                       style: CustomTextStyle.defaultCTxt(
                                           context, -2, 'Bl'),
@@ -685,6 +707,128 @@ class _Page1State extends State<Page1> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  _card(room, lgs) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(MyClass.CardBorderRadius()),
+        color: MyColor.color('headtitle'),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              top: displayWidth(context) * 0.00,
+              left: displayWidth(context) * 0.05,
+              right: displayWidth(context) * 0.05,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/imgs/climate.png',
+                  width: 80,
+                  height: 80,
+                ),
+                Text(
+                  Language.home('roomClimate', lgs),
+                  textScaleFactor: MyClass.FontSizeApp(1.0),
+                  style: CustomTextStyle.defaultCTxt(context, 0, 'Bl'),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    Language.home('tempMax', lgs),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                  Text(
+                    MyClass.checkNull(room[0]['temp']),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    Language.home('humidityMax', lgs),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                  Text(
+                    MyClass.checkNull(room[0]['humidity']),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    Language.home('lightMax', lgs),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                  Text(
+                    MyClass.checkNull(room[0]['light']),
+                    textScaleFactor: MyClass.FontSizeApp(1.0),
+                    style: CustomTextStyle.defaultTxt(
+                      context,
+                      -5,
+                    ),
+                  ),
+                ],
+              ),
+              // Column(
+              //   children: [
+              //     Text(
+              //       "Wind",
+              //       textScaleFactor: MyClass.FontSizeApp(1.0),
+              //       style: CustomTextStyle.defaultTxt(
+              //         context,
+              //         -5,
+              //       ),
+              //     ),
+              //     Text(
+              //       MyClass.checkNull(light),
+              //       textScaleFactor: MyClass.FontSizeApp(1.0),
+              //       style: CustomTextStyle.defaultTxt(
+              //         context,
+              //         -5,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+            ],
+          )
+        ],
       ),
     );
   }
