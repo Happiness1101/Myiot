@@ -109,7 +109,7 @@ class Language {
       return l == 'th' ? 'ผลงานประดิษฐ์คิดค้น ผลงานวิจัย และนวัตกรรมของนักวิจัย/นักประดิษฐ์ไทยได้เผยแพร่สู่การใช้ประโยชน์ต่อกลุ่มเป้าหมายในเวทีระดับสากล' : 'The inventions, research results, and innovations of Thai researchers/inventors have been disseminated for the benefit of target groups on an international stage.';
     }
     if (m == 'bootcam') {
-      return l == 'th' ? 'อบรมณืสมาร์ทฟาร์ม' : 'Boot camp smart farm';
+      return l == 'th' ? 'อบรมณ์สมาร์ทฟาร์ม' : 'Boot camp smart farm';
     }
     if (m == 'mainSkill') {
       return l == 'th' ? 'ทักษะหลัก' : 'Skill';
