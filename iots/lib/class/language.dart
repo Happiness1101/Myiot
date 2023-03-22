@@ -18,7 +18,7 @@ class Language {
       return l == 'th' ? 'แสง' : 'Light';
     }
        if (m == 'PM') {
-      return l == 'th' ? 'ฝุ่น PM2.5' : 'PM 2.5';
+      return l == 'th' ? 'PM 2.5' : 'PM 2.5';
     }
   }
 

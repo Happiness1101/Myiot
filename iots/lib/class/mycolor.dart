@@ -19,7 +19,7 @@ class MyColor {
     } else if (data.toString() == 'button1') {
       return Color.fromARGB(255, 255, 0, 0);
     } else if (data.toString() == 'buttonG') {
-      return Color(0xFF0B9931);
+      return Color.fromARGB(255, 61, 180, 93);
     } else if (data.toString() == 'buttonnext') {
       return Color(0xFF000000);
     } else if (data.toString() == 'slide1') {
@@ -33,14 +33,8 @@ class MyColor {
     } else if (data.toString() == 'settings') {
       return Color(0xFFF5D512);
     } else if (data.toString() == 'buttongra') {
-      return Color(0xFFD37A29);
-    } else if (data.toString() == 'buttongra1') {
-      return Color(0xFFD37A29);
-    } else if (data.toString() == 'buttongra2') {
-      return Color(0xFFD37A29);
-    } else if (data.toString() == 'buttongra3') {
-      return Color(0xFFD37A29);
-    } else if (data.toString() == 'tabs') {
+      return Color.fromARGB(255, 240, 158, 81);
+    }  else if (data.toString() == 'tabs') {
       return Color(0x441CA7EC);
     } else if (data.toString() == 'bg') {
       return Color(0x441CA7EC);

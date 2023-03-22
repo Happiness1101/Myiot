@@ -49,6 +49,7 @@ class _Page1State extends State<Page1> {
     'assets/imgs/temp.png',
     'assets/imgs/humi.png',
     'assets/imgs/light.png',
+    'assets/imgs/pm25.png',
   ];
 
   final colorList = [
@@ -424,7 +425,7 @@ class _Page1State extends State<Page1> {
                       width: 5,
                     ),
                     Container(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: EdgeInsets.only(right: 5,left: 5),
                       decoration: BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(
@@ -439,7 +440,7 @@ class _Page1State extends State<Page1> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.asset(
-                                iconListA[2],
+                                iconListA[3],
                                 width: tabletMode ? 40 : 50,
                               ),
                               Expanded(
