@@ -124,7 +124,6 @@ class _Page1State extends State<Page1> {
                         },
                       ),
                     ),
-
                     // CarouselSlider(
                     //   options: CarouselOptions(
                     //     enableInfiniteScroll: false,

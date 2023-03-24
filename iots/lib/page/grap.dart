@@ -160,7 +160,7 @@ class _GrapState extends State<Grap> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-               Expanded(
+              Expanded(
                 // ignore: sort_child_properties_last
                 child: Column(
                   children: [
@@ -176,23 +176,33 @@ class _GrapState extends State<Grap> {
                 ),
                 flex: 1,
               ),
-              const Expanded(
-                child: Divider(
-                  indent: 15,
-                  endIndent: 5,
-                  height: 20,
-                  thickness: 2,
-                  color: Color.fromARGB(255, 209, 66, 53),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text('Humidity'),
+                    Divider(
+                      indent: 15,
+                      endIndent: 5,
+                      height: 20,
+                      thickness: 2,
+                      color: Color.fromARGB(255, 209, 66, 53),
+                    ),
+                  ],
                 ),
                 flex: 1,
               ),
-              const Expanded(
-                child: Divider(
-                  indent: 15,
-                  endIndent: 5,
-                  height: 20,
-                  thickness: 2,
-                  color: Color.fromARGB(255, 51, 176, 248),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text('Temp'),
+                    Divider(
+                      indent: 15,
+                      endIndent: 5,
+                      height: 20,
+                      thickness: 2,
+                      color: Color.fromARGB(255, 51, 176, 248),
+                    ),
+                  ],
                 ),
                 flex: 1,
               ),
